@@ -1,2 +1,2 @@
 # JavaCaseLab
-Задания находятся в папке Lesson_*, src/Tasks.Lesson_1
+Задания находятся в папке Lessons/src/Tasks/Lesson_*
