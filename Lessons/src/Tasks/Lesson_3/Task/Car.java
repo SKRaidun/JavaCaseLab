@@ -1,21 +1,58 @@
 package Tasks.Lesson_3.Task;
 
 
-public sealed class Car extends Transport permits Sedan, Crossover, SportCar, Jeep  {
+import java.util.Comparator;
+import java.util.Objects;
+
+public sealed class Car extends Transport implements Moveable permits Sedan, Crossover, SportCar, Jeep  {
 
     private double maxSpeed;
     private String transmissionType;
     private String brand;
+    private Engine engine;
+    private Body body;
 
-    public Car(Color color, String model, String manufactureYear, double weight, double maxSpeed, String transmissionType, String brand, String engineType, double volume, double horsePower, String bodyType, int doorsNumber, int wheelNumber) {
+
+
+    @Override
+    public String toString() {
+        return super.toString() + " Car{" +
+                "maxSpeed=" + maxSpeed +
+                ", transmissionType='" + transmissionType + '\'' +
+                ", brand='" + brand + '\'' +
+                ", engine=" +  engine.getEngineParams() +
+                ", body=" + body.getBodyParams() +
+                "} ";
+    }
+
+    public Car() {
+        super();
+    }
+
+    public Car(Color color, String model, int manufactureYear, double weight, double maxSpeed, String transmissionType, String brand, String engineType, double volume, double horsePower, String bodyType, int doorsNumber, int wheelNumber) {
         super(TransportType.CAR, color, model, manufactureYear, weight);
         this.maxSpeed = maxSpeed;
         this.transmissionType = transmissionType;
         this.brand = brand;
-        Engine engine = new Engine(engineType, volume, horsePower);
-        Body body = new Body(bodyType, doorsNumber, wheelNumber);
     }
 
+    public void setEngine(Engine engine) {
+        this.engine = engine;
+    }
+
+    public void setBody(Body body) {
+        this.body = body;
+    }
+
+    @Override
+    public void move() {
+        System.out.println(super.getModel() + " is moving...");
+    }
+
+    @Override
+    public void turn() {
+        System.out.println(super.getModel() + " is turning...");
+    }
 
 
     public class Engine implements EngineActions {
@@ -23,12 +60,14 @@ public sealed class Car extends Transport permits Sedan, Crossover, SportCar, Je
         private double volume;
         private double horsePower;
 
+
         public Engine(String engineType, double volume, double horsePower) {
             this.engineType = engineType;
             this.volume = volume;
             this.horsePower = horsePower;
         }
 
+        public Engine() {}
 
 
         @Override
@@ -64,7 +103,16 @@ public sealed class Car extends Transport permits Sedan, Crossover, SportCar, Je
         public void setHorsePower(double horsePower) {
             this.horsePower = horsePower;
         }
+
+        public String getEngineParams() {
+            return "Engine{" +
+                    "engineType='" + engineType + '\'' +
+                    ", volume=" + volume +
+                    ", horsePower=" + horsePower +
+                    '}';
+        }
     }
+
 
     public class Body implements DoorsActions {
         private String bodyType;
@@ -76,6 +124,8 @@ public sealed class Car extends Transport permits Sedan, Crossover, SportCar, Je
             this.doorsNumber = doorsNumber;
             this.wheelNumber = wheelNumber;
         }
+
+        public Body() {}
 
         @Override
         public void openDoor() {
@@ -110,6 +160,14 @@ public sealed class Car extends Transport permits Sedan, Crossover, SportCar, Je
         public void setWheelNumber(int wheelNumber) {
             this.wheelNumber = wheelNumber;
         }
+
+        public String getBodyParams() {
+            return "Body{" +
+                    "bodyType='" + bodyType + '\'' +
+                    ", doorsNumber=" + doorsNumber +
+                    ", wheelNumber=" + wheelNumber +
+                    '}';
+        }
     }
 
     @Override
@@ -120,5 +178,29 @@ public sealed class Car extends Transport permits Sedan, Crossover, SportCar, Je
     @Override
     public void offLights() {
         System.out.println("Headlights off");
+    }
+
+    public double getMaxSpeed() {
+        return maxSpeed;
+    }
+
+    public void setMaxSpeed(double maxSpeed) {
+        this.maxSpeed = maxSpeed;
+    }
+
+    public String getTransmissionType() {
+        return transmissionType;
+    }
+
+    public void setTransmissionType(String transmissionType) {
+        this.transmissionType = transmissionType;
+    }
+
+    public String getBrand() {
+        return brand;
+    }
+
+    public void setBrand(String brand) {
+        this.brand = brand;
     }
 }
